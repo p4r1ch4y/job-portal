@@ -44,6 +44,32 @@ A modern, feature-rich job portal built with React, Node.js, Express, and MongoD
 - **Loading States** - Skeleton UI for better user experience
 - **Error Boundaries** - Graceful error handling and recovery
 
+## 📸 Screenshots
+
+Here are some screenshots of the Job Portal application in action:
+
+### Homepage (Before Login)
+![Homepage](homepage.png)
+
+### Homepage (After Login)
+![Homepage Post Login](homepage_postLogIn.png)
+
+### Account Creation Page
+![Account Creation Page](account_creation_page.png)
+
+### Job Page (Dummy Data)
+![Dummy Job Page](dummy_jobpage.png)
+
+### External Job Page
+![External Job Page](externalJobpage.png)
+
+### Using Search Function
+![Using Search Function](usingSearchFunction.png)
+
+### Homepage Bottom Section
+![Homepage Bottom Section](homepageBottomSection.png)
+
+
 ## 🛠️ Tech Stack
 
 ### Frontend
@@ -79,7 +105,7 @@ A modern, feature-rich job portal built with React, Node.js, Express, and MongoD
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/p4r1ch4y/job-portal.git
+git clone https://github.com/yourusername/job-portal.git
 cd job-portal
 ```
 

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Render Backend</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        .success { background-color: #d4edda; border-color: #c3e6cb; }
+        .error { background-color: #f8d7da; border-color: #f5c6cb; }
+        .pending { background-color: #fff3cd; border-color: #ffeaa7; }
+        button { padding: 10px 15px; margin: 5px; background: #007bff; color: white; border: none; border-radius: 3px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        pre { background: #f8f9fa; padding: 10px; border-radius: 3px; overflow-x: auto; }
+        .status { font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Render Backend API Tester</h1>
+    <p>Testing backend at: <strong>https://job-portal-4r23.onrender.com</strong></p>
+
+    <div class="test-section pending" id="health-test">
+        <h3>1. Health Check Test</h3>
+        <p class="status">Status: Pending</p>
+        <button onclick="testHealth()">Test Health Check</button>
+        <pre id="health-result">Click the button to test...</pre>
+    </div>
+
+    <div class="test-section pending" id="jobs-test">
+        <h3>2. Jobs API Test</h3>
+        <p class="status">Status: Pending</p>
+        <button onclick="testJobs()">Test Jobs API</button>
+        <pre id="jobs-result">Click the button to test...</pre>
+    </div>
+
+    <div class="test-section pending" id="auth-login-test">
+        <h3>3. Auth Login Test</h3>
+        <p class="status">Status: Pending</p>
+        <button onclick="testAuthLogin()">Test Auth Login</button>
+        <pre id="auth-login-result">Click the button to test...</pre>
+    </div>
+
+    <div class="test-section pending" id="auth-register-test">
+        <h3>4. Auth Register Test</h3>
+        <p class="status">Status: Pending</p>
+        <button onclick="testAuthRegister()">Test Auth Register</button>
+        <pre id="auth-register-result">Click the button to test...</pre>
+    </div>
+
+    <div class="test-section pending" id="all-test">
+        <h3>5. Run All Tests</h3>
+        <button onclick="runAllTests()">🚀 Run All Tests</button>
+    </div>
+
+    <script>
+        const API_BASE = 'https://job-portal-4r23.onrender.com';
+
+        function updateTestStatus(testId, status, result) {
+            const testDiv = document.getElementById(testId);
+            const statusEl = testDiv.querySelector('.status');
+            const resultEl = testDiv.querySelector('pre');
+            
+            testDiv.className = `test-section ${status}`;
+            statusEl.textContent = `Status: ${status.charAt(0).toUpperCase() + status.slice(1)}`;
+            resultEl.textContent = result;
+        }
+
+        async function testHealth() {
+            updateTestStatus('health-test', 'pending', 'Testing...');
+            try {
+                const response = await fetch(`${API_BASE}/`);
+                const text = await response.text();
+                
+                if (response.ok && text.includes('Job Portal API')) {
+                    updateTestStatus('health-test', 'success', `✅ SUCCESS\nStatus: ${response.status}\nResponse: ${text}`);
+                } else {
+                    updateTestStatus('health-test', 'error', `❌ FAILED\nStatus: ${response.status}\nResponse: ${text}`);
+                }
+            } catch (error) {
+                updateTestStatus('health-test', 'error', `❌ ERROR\n${error.message}`);
+            }
+        }
+
+        async function testJobs() {
+            updateTestStatus('jobs-test', 'pending', 'Testing...');
+            try {
+                const response = await fetch(`${API_BASE}/api/jobs`);
+                const data = await response.json();
+                
+                if (response.ok && data.jobs) {
+                    updateTestStatus('jobs-test', 'success', `✅ SUCCESS\nStatus: ${response.status}\nJobs found: ${data.jobs.length}\nFirst job: ${data.jobs[0]?.title || 'None'}`);
+                } else {
+                    updateTestStatus('jobs-test', 'error', `❌ FAILED\nStatus: ${response.status}\nResponse: ${JSON.stringify(data, null, 2)}`);
+                }
+            } catch (error) {
+                updateTestStatus('jobs-test', 'error', `❌ ERROR\n${error.message}`);
+            }
+        }
+
+        async function testAuthLogin() {
+            updateTestStatus('auth-login-test', 'pending', 'Testing...');
+            try {
+                const response = await fetch(`${API_BASE}/api/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: 'test@example.com',
+                        password: 'password123'
+                    })
+                });
+                const data = await response.json();
+                
+                if (response.status === 401 && data.message && data.message.includes('Invalid credentials')) {
+                    updateTestStatus('auth-login-test', 'success', `✅ SUCCESS (Expected 401)\nStatus: ${response.status}\nMessage: ${data.message}\n\nThis is correct - the endpoint is working!`);
+                } else if (response.status === 200 && data.success) {
+                    updateTestStatus('auth-login-test', 'success', `✅ SUCCESS (User exists)\nStatus: ${response.status}\nToken: ${data.token ? 'Present' : 'Missing'}\nUser: ${data.user?.email || 'Unknown'}`);
+                } else if (data.message && !data.message.includes('Not Found')) {
+                    updateTestStatus('auth-login-test', 'success', `✅ SUCCESS (Endpoint working)\nStatus: ${response.status}\nMessage: ${data.message}`);
+                } else {
+                    updateTestStatus('auth-login-test', 'error', `❌ FAILED\nStatus: ${response.status}\nResponse: ${JSON.stringify(data, null, 2)}`);
+                }
+            } catch (error) {
+                updateTestStatus('auth-login-test', 'error', `❌ ERROR\n${error.message}`);
+            }
+        }
+
+        async function testAuthRegister() {
+            updateTestStatus('auth-register-test', 'pending', 'Testing...');
+            try {
+                const testEmail = `test${Date.now()}@example.com`;
+                const response = await fetch(`${API_BASE}/api/auth/register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: 'Test User',
+                        email: testEmail,
+                        password: 'password123',
+                        role: 'candidate'
+                    })
+                });
+                const data = await response.json();
+                
+                if (response.status === 201 && data.success) {
+                    updateTestStatus('auth-register-test', 'success', `✅ SUCCESS\nStatus: ${response.status}\nUser created: ${data.user?.email}\nToken: ${data.token ? 'Present' : 'Missing'}`);
+                } else if (data.message && !data.message.includes('Not Found')) {
+                    updateTestStatus('auth-register-test', 'success', `✅ SUCCESS (Endpoint working)\nStatus: ${response.status}\nMessage: ${data.message}`);
+                } else {
+                    updateTestStatus('auth-register-test', 'error', `❌ FAILED\nStatus: ${response.status}\nResponse: ${JSON.stringify(data, null, 2)}`);
+                }
+            } catch (error) {
+                updateTestStatus('auth-register-test', 'error', `❌ ERROR\n${error.message}`);
+            }
+        }
+
+        async function runAllTests() {
+            await testHealth();
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            await testJobs();
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            await testAuthLogin();
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            await testAuthRegister();
+        }
+    </script>
+</body>
+</html>

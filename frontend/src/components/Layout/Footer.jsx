@@ -40,7 +40,7 @@ const Footer = () => {
         </div>
         <div className="border-t border-gray-700 pt-6 text-center text-sm">
           <p>&copy; {currentYear} JobPortal. All rights reserved.</p>
-          <p className="mt-1">Designed with <span className="text-red-500">❤</span> by Subrata Choudhury ( IITGS24061306 )</p>
+          <p className="mt-1">Designed with <span className="text-red-500">❤</span> by Subrata Choudhury ( IITGCS24061306 )</p>
         </div>
       </div>
     </footer>

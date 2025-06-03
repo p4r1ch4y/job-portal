@@ -7,6 +7,7 @@ A modern, feature-rich job portal built with React, Node.js, Express, and MongoD
 ![Node.js](https://img.shields.io/badge/Node.js-Latest-green)
 ![MongoDB](https://img.shields.io/badge/MongoDB-Latest-green)
 
+
 ## ✨ Features
 
 ### 🎯 Core Functionality
@@ -43,6 +44,92 @@ A modern, feature-rich job portal built with React, Node.js, Express, and MongoD
 - **Interactive Components** - Smooth animations and hover effects
 - **Loading States** - Skeleton UI for better user experience
 - **Error Boundaries** - Graceful error handling and recovery
+
+## Directory Structure
+
+```
+job-portal/
+├── backend/
+│   ├── config/
+│   │   ├── db.js
+│   │   └── index.js
+│   ├── controllers/
+│   │   ├── analyticsController.js
+│   │   ├── applicationController.js
+│   │   ├── assignmentController.js
+│   │   ├── assignmentSubmissionController.js
+│   │   ├── authController.js
+│   │   ├── jobController.js
+│   │   └── profileController.js
+│   ├── middleware/
+│   │   ├── authMiddleware.js
+│   │   └── errorMiddleware.js
+│   ├── models/
+│   │   ├── Application.js
+│   │   ├── Assignment.js
+│   │   ├── AssignmentSubmission.js
+│   │   ├── Job.js
+│   │   ├── Profile.js
+│   │   └── User.js
+│   ├── routes/
+│   │   ├── analyticsRoutes.js
+│   │   ├── applicationRoutes.js
+│   │   ├── assignmentRoutes.js
+│   │   ├── assignmentSubmissionRoutes.js
+│   │   ├── authRoutes.js
+│   │   ├── jobRoutes.js
+│   │   └── profileRoutes.js
+│   ├── utils/
+│   │   └── (utility functions, e.g., validators, file upload helpers)
+│   ├── .env.example
+│   ├── package.json
+│   ├── server.js
+├── frontend/
+│   ├── public/
+│   ├── src/
+│   │   ├── assets/
+│   │   ├── components/
+│   │   │   ├── applications/
+│   │   │   ├── assignments/
+│   │   │   ├── auth/
+│   │   │   ├── common/
+│   │   │   ├── jobs/
+│   │   │   ├── profiles/
+│   │   │   └── analytics/
+│   │   ├── contexts/
+│   │   ├── hooks/
+│   │   ├── pages/
+│   │   ├── services/
+│   │   ├── utils/
+│   │   ├── App.jsx
+│   │   ├── main.jsx
+│   │   └── index.css
+│   ├── package.json
+│   ├── tailwind.config.js
+│   ├── vite.config.js
+│   └── README.md
+├── .gitignore
+├── README.md
+├── LICENSE
+└── docs/
+    ├
+    ├
+    └── (other documentation files)
+```
+
+## System Purpose and Architecture
+
+The Job Portal System addresses the challenges of managing diverse, 
+semi-structured data in modern recruitment platforms. 
+Built on a three-tier architecture, it leverages MongoDB's document-oriented
+approach to handle variable resume formats, dynamic job requirements,
+and flexible application workflows that traditional relational databases struggle to 
+accommodate efficiently.
+
+![System Structure](systemStructure.png)
+
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/p4r1ch4y/job_portal)
+
 
 ## 📸 Screenshots
 
@@ -105,7 +192,7 @@ Here are some screenshots of the Job Portal application in action:
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/yourusername/job-portal.git
+git clone https://github.com/p4r1ch4y/job-portal.git
 cd job-portal
 ```
 
@@ -241,6 +328,11 @@ Set in Vercel dashboard:
 2. **Railway**
 3. **DigitalOcean App Platform**
 4. **AWS/GCP/Azure**
+5. **Render**
+
+## Live Demo? 
+
+** Soon ** 👍 **Working on it** ☝️🤓
 
 ## 🤝 Contributing
 
